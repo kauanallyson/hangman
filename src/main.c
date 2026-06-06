@@ -1,69 +1,19 @@
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include "utils.h"
 
-#define MAX_NUM_OF_ERRORS 5
-
-void clear_screen() {
-    printf("\033[1;1H\033[2J");
-    fflush(stdout);
-}
-
-bool is_char_in(const char *word, char c) {
-    const size_t len = strlen(word);
-    for (size_t i = 0; i < len; ++i) {
-        if (word[i] == c) {
-            return true;
-        }
-    }
-    return false;
-}
-
-void render_secret_word(const char *word, const char *guesses) {
-    const size_t len = strlen(word);
-    const size_t inner = 2 * len + 1; // largura interna da caixa
-
-    // borda de cima
-    printf("╭");
-    for (size_t i = 0; i < inner; ++i)
-        printf("─");
-    printf("╮\n");
-
-    // a palavra
-    printf("│ ");
-    for (size_t i = 0; i < len; ++i) {
-        if (is_char_in(guesses, word[i])) {
-            printf("%c ", word[i]);
-        } else {
-            printf("_ ");
-        }
-    }
-    printf("│\n");
-
-    // borda de baixo
-    printf("╰");
-    for (size_t i = 0; i < inner; ++i)
-        printf("─");
-    printf("╯\n");
-}
-
-bool has_won(const char *word, const char *guesses) {
-    const size_t len = strlen(word);
-    for (size_t i = 0; i < len; ++i) {
-        if (!is_char_in(guesses, word[i])) {
-            return false;
-        }
-    }
-    return true;
-}
+#define MAX_NUM_OF_ERRORS 10
+#define MAX_WORD_LEN 10
 
 int main(void) {
-    const char *word = "programacao"; // TODO: sortear de forma aleatoria (Requisito 1)
+    char word[MAX_WORD_LEN];
+
+    if (!get_random_word("words.txt", word, sizeof(word))){
+        fprintf(stderr, "ERROR: Could not load words from 'words.txt'. Make sure the file exists and is not empty.\n");
+        exit(1);
+    }
+
     char guesses[27] = {0};           // 26 letras + 1 '\0'
-    int error_count = 0;
     char line[256]; // buffer de entrada
+    int error_count = 0;
     bool won = false;
 
     clear_screen();
