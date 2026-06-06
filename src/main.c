@@ -17,7 +17,7 @@ int main(void) {
     bool won = false;
 
     clear_screen();
-    printf("O jogo de hoje e Forca!\n");
+    printf("Jogo da Forca! (Hangman)\n");
     render_secret_word(word, guesses);
     printf("Voce tem %d tentativas para adivinhar a palavra secreta.\n", MAX_NUM_OF_ERRORS);
 
