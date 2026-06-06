@@ -43,6 +43,15 @@ void render_secret_word(const char *word, const char *guesses) {
     printf("╯\n");
 }
 
+void print_used_letters(const char *guesses) {
+    const size_t len = strlen(guesses);
+    printf("Letras usadas: ");
+    for (size_t i = 0; i < len; ++i) {
+        printf("%c ", guesses[i]);
+    }
+    printf("\n");
+}
+
 bool has_won(const char *word, const char *guesses) {
     const size_t len = strlen(word);
     for (size_t i = 0; i < len; ++i) {
