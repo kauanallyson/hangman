@@ -46,7 +46,6 @@ void render_secret_word(const char *word, const char *guesses) {
 void render_hangman(int error_count) {
     printf(
     "  ╭───╮\n"
-    "  │   │\n"
     "  %c   │\n"
     " %c%c%c  │\n"
     " %c %c  │\n",
