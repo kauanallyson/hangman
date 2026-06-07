@@ -25,7 +25,7 @@ tentativas acabam. Em caso de derrota, a palavra secreta é revelada.
 │   ├── main.c      main
 │   ├── utils.c     funções auxiliares
 │   └── utils.h     declarações
-└── bin/            saída da compilação
+└── build/          saída da compilação
 ```
 
 ## Compilação
@@ -36,7 +36,7 @@ Requer `gcc` e `make`.
 make
 ```
 
-Compila com `-Wall -Wextra -Wpedantic -ggdb` gerando `bin/hangman`.
+Compila com `-Wall -Wextra -Wpedantic` gerando `build/hangman`.
 
 Limpa a build com:
 
@@ -48,14 +48,16 @@ make clean
 
 Execute a partir da raiz do projeto para que o `words.txt` seja encontrado:
 ```sh
-./bin/hangman
+./build/hangman
 ```
 
 ## Como jogar
 
 - Digite uma única letra e pressione Enter.
 - Letras já escolhidas e entradas inválidas são rejeitadas sem consumir tentativa.
-- Padrão: 10 tentativas, tamanho máximo da palavra 10.
+- Apenas letras erradas consomem uma tentativa.
+- A cada erro um novo traço do boneco é desenhado.
+- Padrão: 5 tentativas, tamanho máximo da palavra 10.
 
 ## Lista de palavras
 
