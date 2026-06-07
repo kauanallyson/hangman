@@ -21,8 +21,9 @@ void render_secret_word(const char *word, const char *guesses) {
 
     // borda de cima
     printf("╭");
-    for (size_t i = 0; i < inner; ++i)
+    for (size_t i = 0; i < inner; ++i) {
         printf("─");
+    }
     printf("╮\n");
 
     // a palavra
@@ -38,8 +39,9 @@ void render_secret_word(const char *word, const char *guesses) {
 
     // borda de baixo
     printf("╰");
-    for (size_t i = 0; i < inner; ++i)
+    for (size_t i = 0; i < inner; ++i) {
         printf("─");
+    }
     printf("╯\n");
 }
 
@@ -50,7 +52,7 @@ void render_hangman(int error_count) {
     " %c%c%c  │\n"
     " %c %c  │\n",
     error_count > 0 ? 'o' : ' ',
-    error_count > 1 ? '/' : ' ',
+    error_count > 2 ? '/' : ' ',
     error_count > 1 ? '|' : ' ',
     error_count > 2 ? '\\' : ' ',
     error_count > 3 ? '/' : ' ',
@@ -78,15 +80,17 @@ bool has_won(const char *word, const char *guesses) {
 
 bool get_random_word(const char* filename, char* output, size_t max_len) {
     srand(time(NULL));
+
     FILE *f = fopen(filename, "r");
     if (f == NULL) {
         return false;
     }
+
     char buffer[256];
     int word_count = 0;
 
     while (fgets(buffer, sizeof(buffer), f) != NULL) {
-        if (!isspace(buffer[0]) || buffer[0] != '\0'){
+        if (buffer[0] != '\n' && buffer[0] != '\0'){
             ++word_count;
         }
     }
@@ -97,12 +101,11 @@ bool get_random_word(const char* filename, char* output, size_t max_len) {
     }
 
     int target_line = rand() % word_count;
-
     rewind(f);
     int curr_line = 0;
 
     while(fgets(buffer, sizeof(buffer), f) !=  NULL) {
-        if (!isspace(buffer[0]) || buffer[0] != '\0'){
+        if (buffer[0] != '\n' && buffer[0] != '\0'){
             if (curr_line == target_line){
                 buffer[strcspn(buffer, "\r\n")] = '\0';
 

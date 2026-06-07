@@ -1,20 +1,19 @@
 #include "utils.h"
 
 #define MAX_NUM_OF_ERRORS 5
-#define MAX_WORD_LEN 10
 
 int main(void) {
-    char word[MAX_WORD_LEN];
+    char guesses[27] = {0}; // 26 letras + 1 '\0'
+    char line[256];         // buffer de entrada
+    char word[10];          // palavra secreta
+
+    int error_count  = 0;
+    bool won         = false;
 
     if (!get_random_word("words.txt", word, sizeof(word))){
-        fprintf(stderr, "ERRO: Nao foi possivel carregar palavras de 'words.txt'. Verifique se o arquivo existe e nao esta vazio.\n");
+        fprintf(stderr, "ERRO 01: Nao foi possivel carregar palavras de 'words.txt'. Verifique se o arquivo existe e nao esta vazio.\n");
         exit(1);
     }
-
-    char guesses[27] = {0};           // 26 letras + 1 '\0'
-    char line[256]; // buffer de entrada
-    int error_count = 0;
-    bool won = false;
 
     clear_screen();
     printf("Jogo da Forca! (Hangman)\n");
@@ -25,15 +24,14 @@ int main(void) {
         printf("Digite uma letra: ");
 
         if (fgets(line, sizeof(line), stdin) == NULL) {
-            int error_code = 1;
-            fprintf(stderr, "ERRO (%d): Nao foi possivel ler a entrada. Saindo...\n", error_code);
-            exit(1); // se der erro sai do progarma
+            fprintf(stderr, "ERRO 02: Nao foi possivel ler a entrada. Saindo...\n");
+            exit(1);
         }
 
         char c = line[0];
         if (isspace(c) || !isalpha(c)) {
-            printf("Digite uma letra valida.\n");
-            continue; // linha inválida, tenta novamente
+            printf("Parece que voce nao digitou uma letra valida, tente novamente.\n");
+            continue;
         }
 
         c = (char)tolower((unsigned char)c); // cast to lower
@@ -42,11 +40,9 @@ int main(void) {
             printf("Voce ja tentou essa letra, tente outra.\n");
             continue;
         }
-
         strncat(guesses, &c, 1); // registra a letra (certa ou errada)
 
         clear_screen();
-
         if (is_char_in(word, c)) {
             printf("Boa! A letra '%c' esta na palavra.\n", c);
         } else {
