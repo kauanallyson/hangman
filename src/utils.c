@@ -43,6 +43,21 @@ void render_secret_word(const char *word, const char *guesses) {
     printf("╯\n");
 }
 
+void render_hangman(int error_count) {
+    printf(
+    "  ╭───╮\n"
+    "  │   │\n"
+    "  %c   │\n"
+    " %c%c%c  │\n"
+    " %c %c  │\n",
+    error_count > 0 ? 'o' : ' ',
+    error_count > 1 ? '/' : ' ',
+    error_count > 1 ? '|' : ' ',
+    error_count > 2 ? '\\' : ' ',
+    error_count > 3 ? '/' : ' ',
+    error_count > 4 ? '\\' : ' ');
+}
+
 void print_used_letters(const char *guesses) {
     const size_t len = strlen(guesses);
     printf("Letras usadas: ");

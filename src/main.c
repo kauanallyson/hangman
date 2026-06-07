@@ -57,6 +57,7 @@ int main(void) {
         render_secret_word(word, guesses);
         print_used_letters(guesses);
         printf("Tentativas restantes: %d\n", MAX_NUM_OF_ERRORS - error_count);
+        render_hangman(error_count);
 
         if (has_won(word, guesses)) {
             won = true;
