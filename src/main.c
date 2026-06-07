@@ -1,6 +1,6 @@
 #include "utils.h"
 
-#define MAX_NUM_OF_ERRORS 10
+#define MAX_NUM_OF_ERRORS 5
 #define MAX_WORD_LEN 10
 
 int main(void) {
