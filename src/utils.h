@@ -14,6 +14,7 @@ void render_secret_word(const char *word, const char *guesses);
 void render_hangman(int error_count);
 void print_used_letters(const char *guesses);
 bool has_won(const char *word, const char *guesses);
-bool get_random_word(const char* filename, char* output, size_t max_len);
+int get_amount_of_words(const char* filename);
+bool get_random_word(const char* filename, char* output, size_t max_len, int word_count);
 
 #endif // UTILS_H

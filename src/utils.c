@@ -78,16 +78,14 @@ bool has_won(const char *word, const char *guesses) {
     return true;
 }
 
-bool get_random_word(const char* filename, char* output, size_t max_len) {
-    srand(time(NULL));
+int get_amount_of_words(const char* filename) {
+    char buffer[256];
+    int word_count = 0;
 
     FILE *f = fopen(filename, "r");
     if (f == NULL) {
-        return false;
+        return 0;
     }
-
-    char buffer[256];
-    int word_count = 0;
 
     while (fgets(buffer, sizeof(buffer), f) != NULL) {
         if (buffer[0] != '\n' && buffer[0] != '\0'){
@@ -95,14 +93,19 @@ bool get_random_word(const char* filename, char* output, size_t max_len) {
         }
     }
 
-    if (word_count == 0) {
-        fclose(f);
+    fclose(f);
+    return word_count;
+}
+
+bool get_random_word(const char* filename, char* output, size_t max_len, int word_count) {
+    char buffer[256];
+    int target_line = rand() % word_count;
+    int curr_line   = 0;
+
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
         return false;
     }
-
-    int target_line = rand() % word_count;
-    rewind(f);
-    int curr_line = 0;
 
     while(fgets(buffer, sizeof(buffer), f) !=  NULL) {
         if (buffer[0] != '\n' && buffer[0] != '\0'){

@@ -3,14 +3,17 @@
 #define MAX_NUM_OF_ERRORS 5
 
 int main(void) {
-    char guesses[27] = {0}; // 26 letras + 1 '\0'
-    char line[256];         // buffer de entrada
+    srand(time(NULL));
+
     char word[10];          // palavra secreta
+    char line[256];         // buffer de entrada
+    char guesses[27] = {0}; // 26 letras + 1 '\0'
 
     int error_count  = 0;
     bool won         = false;
+    int word_count   = get_amount_of_words("words.txt");
 
-    if (!get_random_word("words.txt", word, sizeof(word))){
+    if (word_count == 0 || !get_random_word("words.txt", word, sizeof(word), word_count)) {
         fprintf(stderr, "ERRO 01: Nao foi possivel carregar palavras de 'words.txt'. Verifique se o arquivo existe e nao esta vazio.\n");
         exit(1);
     }
